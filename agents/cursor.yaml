@@ -1,0 +1,9 @@
+# input: Skill 宿主读取
+# output: 展示名与默认提示
+# pos: agents 元数据
+# 一旦我被更新，务必更新我的开头注释，以及所属的文件夹的 md。
+
+interface:
+  display_name: "Cursor Theme Studio"
+  short_description: "交互式生成、预览、应用并验证精致 Cursor 主题"
+  default_prompt: "Use $cursor-theme-studio to guide me through creating and applying a polished Cursor theme."

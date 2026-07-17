@@ -1,0 +1,38 @@
+# input: GitHub Actions runner
+# output: CI 通过/失败
+# pos: 推送与 PR 校验
+# 一旦我被更新，务必更新我的开头注释，以及所属的文件夹的 md。
+
+name: test
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check JavaScript syntax
+        run: |
+          for file in scripts/*.mjs assets/renderer-inject.js; do
+            node --check "$file"
+          done
+      - name: Run Skill self-test
+        run: node scripts/self-test.mjs
+      - name: Run studio handoff protocol test
+        run: node scripts/studio-protocol-test.mjs
+      - name: Reject private or machine-specific data
+        run: |
+          if grep -RInE '/Users/|BEGIN (RSA|OPENSSH|EC|PRIVATE)' \
+            --exclude-dir=.git --exclude=test.yml --exclude='*.md' .; then
+            echo "Private or machine-specific data found."
+            exit 1
+          fi
