@@ -12,6 +12,9 @@ Node CLI：编译、Studio、CDP 注入、导入导出与测试。
 | `doctor.mjs` | 体检入口 | 检查 Node / Cursor / CDP |
 | `interview.mjs` | 访谈入口 | 一轮/多轮确认 → brief |
 | `try.mjs` | 试用入口 | QA profile 一键应用 |
+| `list-themes.mjs` | 列表入口 | 查看本地主题 |
+| `switch-theme.mjs` | 切换入口 | 快速切主题 / 恢复 |
+| `gallery-server.mjs` | 画廊服务 | HTML 预览选主题 |
 | `compile-theme.mjs` | 编译入口 | brief → themes/ |
 | `studio-server.mjs` | Studio 服务 | HTML 工作台 + handoff |
 | `start-theme.mjs` | 应用入口 | 启动 Cursor CDP + watcher |

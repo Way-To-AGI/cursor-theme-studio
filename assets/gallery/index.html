@@ -1,0 +1,215 @@
+<!doctype html>
+<!-- input: gallery-server API（themes/apply/restore） -->
+<!-- output: 用户选择并切换主题 / 一键恢复 -->
+<!-- pos: 本地 HTML 主题画廊与切换台 -->
+<!-- 一旦我被更新，务必更新我的开头注释，以及所属的文件夹的 md。 -->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cursor Theme Gallery</title>
+  <style>
+    :root {
+      --bg: #0b1016;
+      --panel: rgba(255,255,255,.04);
+      --ink: #eef3f8;
+      --muted: #8b95a5;
+      --line: rgba(255,255,255,.08);
+      --accent: #7ee7ff;
+      --ok: #7ddea0;
+      --danger: #ff8f8f;
+      font-family: "SF Pro Text", "PingFang SC", -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 12% 0%, #1a2433, transparent 34%), var(--bg);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 22px 48px; }
+    header { display: flex; justify-content: space-between; gap: 16px; align-items: end; margin-bottom: 22px; }
+    h1 { margin: 0; font-size: 28px; letter-spacing: -.03em; }
+    header p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    button, .btn {
+      appearance: none; border: 1px solid var(--line); background: rgba(255,255,255,.04);
+      color: var(--ink); border-radius: 12px; padding: 10px 14px; font: inherit; cursor: pointer;
+    }
+    button.primary { background: linear-gradient(135deg, #7ee7ff, #b7d4ff); color: #071018; border: 0; font-weight: 650; }
+    button.danger { border-color: rgba(255,143,143,.35); color: var(--danger); }
+    button:disabled { opacity: .4; cursor: not-allowed; }
+    .status {
+      margin: 0 0 18px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px;
+      background: rgba(255,255,255,.03); color: var(--muted); font-size: 12px; line-height: 1.5;
+    }
+    .status strong { color: var(--ink); }
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;
+    }
+    .card {
+      border: 1px solid var(--line); border-radius: 18px; overflow: hidden;
+      background: rgba(255,255,255,.03); display: grid; grid-template-rows: 150px auto;
+    }
+    .card.selected { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .preview {
+      position: relative; background:
+        linear-gradient(105deg, rgba(8,12,18,.55), rgba(8,12,18,.12)),
+        var(--art, none),
+        linear-gradient(145deg, var(--surface, #0a1018), #121a24);
+      background-size: cover; background-position: center;
+    }
+    .preview::after {
+      content: ""; position: absolute; inset: auto 14px 14px auto; width: 2px; height: 54px;
+      border-radius: 999px; background: linear-gradient(180deg, transparent, var(--accent-color, #7ee7ff), transparent);
+      box-shadow: 0 0 12px var(--accent-color, #7ee7ff);
+    }
+    .meta { padding: 14px; display: grid; gap: 10px; }
+    .meta h2 { margin: 0; font-size: 16px; }
+    .meta p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .swatches { display: flex; gap: 6px; }
+    .swatches i { width: 16px; height: 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.15); }
+    .row { display: flex; gap: 8px; }
+    .row button { flex: 1; }
+    .empty { padding: 40px 18px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 18px; }
+    .toast {
+      position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%);
+      background: #152031; border: 1px solid var(--line); color: var(--ink);
+      padding: 10px 14px; border-radius: 999px; font-size: 12px; display: none;
+    }
+    .toast.show { display: block; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Cursor Theme Gallery</h1>
+        <p>本地预览 · 一键切换主题 · 出问题可恢复原样</p>
+      </div>
+      <div class="actions">
+        <button id="refresh" type="button">刷新列表</button>
+        <button id="restore" class="danger" type="button">恢复原样</button>
+      </div>
+    </header>
+    <div class="status" id="status">正在加载主题…</div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden>
+      还没有主题。先运行：<code>node scripts/interview.mjs --one-round</code>
+      或使用内置 <code>aurora-focus</code>。
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script>
+    const grid = document.getElementById("grid");
+    const empty = document.getElementById("empty");
+    const status = document.getElementById("status");
+    const toast = document.getElementById("toast");
+    let selected = null;
+    let busy = false;
+
+    function showToast(text) {
+      toast.textContent = text;
+      toast.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    function activeLabel(active) {
+      if (!active?.theme) return "当前未注入主题（原生界面）";
+      const id = String(active.theme).split("/").slice(-2, -1)[0] || active.theme;
+      return `当前注入：<strong>${id}</strong> · port ${active.port || "-"}`;
+    }
+
+    function card(theme) {
+      const el = document.createElement("article");
+      el.className = "card" + (selected === theme.id ? " selected" : "");
+      el.style.setProperty("--surface", theme.palette?.surface || "#0a1018");
+      el.style.setProperty("--accent-color", theme.palette?.accent || "#7ee7ff");
+      if (theme.artUrl) el.style.setProperty("--art", `url(${theme.artUrl})`);
+      el.innerHTML = `
+        <div class="preview"></div>
+        <div class="meta">
+          <div>
+            <h2>${theme.displayName}</h2>
+            <p>${theme.id} · ${theme.mode} · ${theme.direction}<br>${theme.tagline || "无短句"}</p>
+          </div>
+          <div class="swatches">
+            <i style="background:${theme.palette?.accent || "#7ee7ff"}"></i>
+            <i style="background:${theme.palette?.support || "#d7b48a"}"></i>
+            <i style="background:${theme.palette?.surface || "#0a1018"}"></i>
+            <i style="background:${theme.palette?.ink || "#f4f7fa"}"></i>
+          </div>
+          <div class="row">
+            <button type="button" data-select="${theme.id}">选中预览</button>
+            <button class="primary" type="button" data-apply="${theme.id}">切换到此主题</button>
+          </div>
+        </div>`;
+      return el;
+    }
+
+    async function load() {
+      const response = await fetch("/api/themes");
+      const data = await response.json();
+      const themes = data.themes || [];
+      selected = selected && themes.some((t) => t.id === selected)
+        ? selected
+        : (data.active?.theme ? String(data.active.theme).split("/").slice(-2, -1)[0] : themes[0]?.id || null);
+      status.innerHTML = `${activeLabel(data.active)} · 共 ${themes.length} 套主题`;
+      grid.innerHTML = "";
+      empty.hidden = themes.length > 0;
+      for (const theme of themes) grid.appendChild(card(theme));
+    }
+
+    async function apply(themeId) {
+      if (busy) return;
+      busy = true;
+      status.innerHTML = `正在切换到 <strong>${themeId}</strong>…（会打开/刷新 QA Cursor 窗口）`;
+      try {
+        const response = await fetch("/api/apply", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ themeId }),
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "apply failed");
+        selected = themeId;
+        showToast(`已切换：${themeId}`);
+        await load();
+      } catch (error) {
+        showToast(error.message);
+        status.textContent = error.message;
+      } finally {
+        busy = false;
+      }
+    }
+
+    async function restore() {
+      if (busy) return;
+      busy = true;
+      status.textContent = "正在恢复原生界面…";
+      try {
+        const response = await fetch("/api/restore", { method: "POST" });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "restore failed");
+        showToast("已恢复原样");
+        await load();
+      } catch (error) {
+        showToast(error.message);
+      } finally {
+        busy = false;
+      }
+    }
+
+    grid.addEventListener("click", (event) => {
+      const applyId = event.target.closest("[data-apply]")?.dataset.apply;
+      const selectId = event.target.closest("[data-select]")?.dataset.select;
+      if (applyId) apply(applyId);
+      if (selectId) {
+        selected = selectId;
+        load();
+      }
+    });
+    document.getElementById("refresh").onclick = load;
+    document.getElementById("restore").onclick = restore;
+    load().catch((error) => { status.textContent = error.message; });
+  </script>
+</body>
+</html>

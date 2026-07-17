@@ -1,0 +1,44 @@
+{
+  "id": "warm-studio",
+  "name": "Warm Studio",
+  "version": "1.0.0",
+  "mode": "light",
+  "direction": "warm-studio",
+  "palette": {
+    "accent": "#FF7A45",
+    "support": "#E0A82E",
+    "surface": "#FAF4E8",
+    "ink": "#302821"
+  },
+  "background": {
+    "source": "builtin",
+    "position": "center right",
+    "veil": 0.74,
+    "prompt": ""
+  },
+  "shape": {
+    "radius": 16,
+    "shadow": "soft"
+  },
+  "decorations": {
+    "density": "light",
+    "sidebarWidget": {
+      "enabled": true,
+      "icon": "✦",
+      "eyebrow": "CURSOR / STUDIO",
+      "title": "Soft daylight",
+      "caption": "Theme synchronized"
+    },
+    "cornerCard": {
+      "enabled": false,
+      "icon": "C",
+      "eyebrow": "CREATIVE SPACE",
+      "title": "luminous",
+      "caption": "Ideas in motion"
+    }
+  },
+  "copy": {
+    "tagline": "Sunlit desk energy"
+  },
+  "corrections": []
+}

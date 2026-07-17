@@ -1,0 +1,44 @@
+{
+  "id": "quiet-editorial",
+  "name": "Quiet Editorial",
+  "version": "1.0.0",
+  "mode": "light",
+  "direction": "quiet-editorial",
+  "palette": {
+    "accent": "#3867D6",
+    "support": "#7C8AA5",
+    "surface": "#F4F3EF",
+    "ink": "#20242B"
+  },
+  "background": {
+    "source": "builtin",
+    "position": "center right",
+    "veil": 0.78,
+    "prompt": ""
+  },
+  "shape": {
+    "radius": 16,
+    "shadow": "soft"
+  },
+  "decorations": {
+    "density": "light",
+    "sidebarWidget": {
+      "enabled": true,
+      "icon": "✦",
+      "eyebrow": "CURSOR / STUDIO",
+      "title": "Clear page",
+      "caption": "Theme synchronized"
+    },
+    "cornerCard": {
+      "enabled": false,
+      "icon": "C",
+      "eyebrow": "CREATIVE SPACE",
+      "title": "luminous",
+      "caption": "Ideas in motion"
+    }
+  },
+  "copy": {
+    "tagline": "Clean paper, quiet mind"
+  },
+  "corrections": []
+}

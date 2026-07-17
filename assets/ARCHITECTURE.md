@@ -9,6 +9,7 @@
 | 名字 | 地位 | 功能 |
 |------|------|------|
 | `studio/index.html` | 工作台 UI | 四步主题设计 |
+| `gallery/index.html` | 画廊 UI | 预览/切换/恢复主题 |
 | `renderer-inject.js` | 注入载荷 | workbench 可逆装主题 |
 | `studio-default-art.png` | 默认背景 | builtin 背景图 |
 | `readme-preview.png` | 文档预览 | README 插图（可替换） |

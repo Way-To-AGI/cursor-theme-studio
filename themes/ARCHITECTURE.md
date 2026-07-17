@@ -8,4 +8,7 @@ gitignore 忽略除 `aurora-focus` 外的目录。
 
 | 名字 | 地位 | 功能 |
 |------|------|------|
-| `aurora-focus/` | 示例主题 | 深色极光基线主题 |
+| `aurora-focus/` | 示例主题 | 深色极光基线 |
+| `quiet-editorial/` | 示例主题 | 浅色编辑部 |
+| `warm-studio/` | 示例主题 | 浅色温暖工作室 |
+| `cyber-neon/` | 示例主题 | 深色霓虹 |

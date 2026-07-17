@@ -39,6 +39,29 @@ git clone https://github.com/Way-To-AGI/cursor-theme-studio.git \
 
 ```bash
 node scripts/try.mjs
+# 或
+node scripts/switch-theme.mjs aurora-focus
+```
+
+### 本地 HTML 画廊（预览 / 切换 / 恢复）
+
+```bash
+node scripts/gallery-server.mjs
+```
+
+浏览器打开 `http://127.0.0.1:48771/`：
+
+- 预览本地全部主题
+- 点 **切换到此主题** 立刻切换
+- 出问题点 **恢复原样**
+
+### 终端快捷切换
+
+```bash
+node scripts/list-themes.mjs
+node scripts/switch-theme.mjs cyber-neon
+node scripts/switch-theme.mjs warm-studio
+node scripts/switch-theme.mjs --restore
 ```
 
 恢复：
@@ -89,6 +112,16 @@ node scripts/studio-server.mjs --wait-for-submit
 - CDP 只绑本机回环
 - 不改官方安装包
 - 默认走 QA profile；主窗口要重启必须用户明确授权
+
+## 目录
+
+```text
+scripts/list-themes.mjs      列出主题
+scripts/switch-theme.mjs     切换 / 恢复
+scripts/gallery-server.mjs   本地 HTML 画廊
+assets/gallery/              画廊页面
+themes/*/                    示例与生成主题
+```
 
 ## 许可证
 

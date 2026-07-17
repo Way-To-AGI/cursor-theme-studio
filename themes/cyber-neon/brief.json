@@ -1,0 +1,44 @@
+{
+  "id": "cyber-neon",
+  "name": "Cyber Neon",
+  "version": "1.0.0",
+  "mode": "dark",
+  "direction": "cyber-neon",
+  "palette": {
+    "accent": "#F4E527",
+    "support": "#32D8FF",
+    "surface": "#080D18",
+    "ink": "#F5F7FA"
+  },
+  "background": {
+    "source": "builtin",
+    "position": "78% 35%",
+    "veil": 0.35,
+    "prompt": ""
+  },
+  "shape": {
+    "radius": 16,
+    "shadow": "soft"
+  },
+  "decorations": {
+    "density": "standard",
+    "sidebarWidget": {
+      "enabled": true,
+      "icon": "✦",
+      "eyebrow": "CURSOR / STUDIO",
+      "title": "Night circuit",
+      "caption": "Theme synchronized"
+    },
+    "cornerCard": {
+      "enabled": true,
+      "icon": "C",
+      "eyebrow": "CREATIVE SPACE",
+      "title": "luminous",
+      "caption": "Ideas in motion"
+    }
+  },
+  "copy": {
+    "tagline": "High contrast focus"
+  },
+  "corrections": []
+}

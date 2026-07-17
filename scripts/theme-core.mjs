@@ -441,6 +441,44 @@ export function validateCss(css) {
   return true;
 }
 
+export async function listThemes(options = {}) {
+  const root = path.resolve(options.outputRoot ?? themesRoot);
+  let entries = [];
+  try {
+    entries = await fs.readdir(root, { withFileTypes: true });
+  } catch {
+    return [];
+  }
+  const themes = [];
+  for (const entry of entries) {
+    if (!entry.isDirectory() || entry.name.startsWith(".")) continue;
+    if (!SAFE_ID.test(entry.name)) continue;
+    try {
+      const loaded = await loadTheme(path.join(root, entry.name, `${entry.name}.json`));
+      const briefPath = path.join(root, entry.name, "brief.json");
+      let brief = null;
+      try { brief = JSON.parse(await fs.readFile(briefPath, "utf8")); } catch { /* optional */ }
+      themes.push({
+        id: loaded.manifest.id,
+        displayName: loaded.manifest.displayName,
+        version: loaded.manifest.version,
+        mode: loaded.manifest.design?.mode ?? brief?.mode ?? "dark",
+        direction: loaded.manifest.design?.direction ?? brief?.direction ?? "custom",
+        palette: loaded.manifest.design?.palette ?? brief?.palette ?? null,
+        art: loaded.manifest.art,
+        artUrl: loaded.manifest.art ? `/api/themes/${loaded.manifest.id}/art` : null,
+        density: loaded.manifest.decorations?.density ?? brief?.decorations?.density ?? "light",
+        tagline: loaded.manifest.copy?.tagline ?? brief?.copy?.tagline ?? "",
+        manifestPath: loaded.manifestPath,
+        themeDir: path.dirname(loaded.manifestPath),
+      });
+    } catch {
+      /* skip broken theme folders */
+    }
+  }
+  return themes.sort((a, b) => a.id.localeCompare(b.id));
+}
+
 export async function createTheme(briefInput, options = {}) {
   const brief = normalizeBrief(briefInput);
   const outputRoot = path.resolve(options.outputRoot ?? themesRoot);

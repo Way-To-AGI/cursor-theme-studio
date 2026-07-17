@@ -19,9 +19,19 @@ Create reversible, **good-looking** Cursor themes through a constrained brief an
    - Multi-round: follow `references/interview.md`
    - One-round CLI: `node scripts/interview.mjs --one-round`
    - Multi-round CLI: `node scripts/interview.mjs --multi`
-3. Apply to an isolated QA window: `node scripts/try.mjs --theme <id>`
+3. Apply to an isolated QA window: `node scripts/try.mjs --theme <id>` or open the gallery `node scripts/gallery-server.mjs`
 4. Show screenshot / ask whether to keep or refine
-5. Only apply to the primary Cursor after explicit user authorization (`--restart-existing`)
+5. If anything breaks: `node scripts/switch-theme.mjs --restore`
+6. Only apply to the primary Cursor after explicit user authorization (`--restart-existing`)
+
+### Fast switching
+
+```bash
+node scripts/list-themes.mjs
+node scripts/switch-theme.mjs aurora-focus
+node scripts/switch-theme.mjs cyber-neon
+node scripts/gallery-server.mjs   # HTML preview + click to switch
+```
 
 Read `references/interview.md` before asking taste questions. Beauty bar is mandatory: visible artwork, translucent glass, no patch-like floating cards.
 
@@ -40,6 +50,9 @@ Keep the Agent turn attached until `submitted`, then compile from `briefPath` an
 | `scripts/doctor.mjs` | Environment check |
 | `scripts/interview.mjs` | Taste interview → brief (+ compile) |
 | `scripts/try.mjs` | One-command QA apply |
+| `scripts/list-themes.mjs` | List local themes |
+| `scripts/switch-theme.mjs` | Switch theme / restore |
+| `scripts/gallery-server.mjs` | Local HTML preview + switch |
 | `scripts/compile-theme.mjs` | Brief → theme |
 | `scripts/start-theme.mjs` | Apply / launch with CDP |
 | `scripts/restore-theme.mjs` | Remove theme |

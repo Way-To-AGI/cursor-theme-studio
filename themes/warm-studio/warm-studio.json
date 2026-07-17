@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "engine": "cursor-theme-studio",
+  "id": "warm-studio",
+  "displayName": "Warm Studio",
+  "version": "1.0.0",
+  "css": "theme.css",
+  "art": "background.png",
+  "design": {
+    "mode": "light",
+    "direction": "warm-studio",
+    "palette": {
+      "accent": "#FF7A45",
+      "support": "#E0A82E",
+      "surface": "#FAF4E8",
+      "ink": "#302821"
+    },
+    "shape": {
+      "radius": 16,
+      "shadow": "soft"
+    }
+  },
+  "background": {
+    "source": "builtin",
+    "position": "center right",
+    "veil": 0.74,
+    "prompt": ""
+  },
+  "decorations": {
+    "density": "light",
+    "sidebarWidget": {
+      "enabled": true,
+      "icon": "✦",
+      "eyebrow": "CURSOR / STUDIO",
+      "title": "Soft daylight",
+      "caption": "Theme synchronized"
+    },
+    "cornerCard": {
+      "enabled": false,
+      "icon": "C",
+      "eyebrow": "CREATIVE SPACE",
+      "title": "luminous",
+      "caption": "Ideas in motion"
+    }
+  },
+  "copy": {
+    "brandTitle": "Warm Studio",
+    "brandSubtitle": "Cursor Theme Studio",
+    "signature": "Sunlit desk energy",
+    "tagline": "Sunlit desk energy"
+  },
+  "baseTheme": {
+    "mode": "light",
+    "accent": "#FF7A45",
+    "contrast": 132,
+    "ink": "#302821",
+    "surface": "#FAF4E8",
+    "fonts": {
+      "windowsCode": "Cascadia Code",
+      "windowsUi": "Microsoft YaHei UI",
+      "macCode": "SF Mono",
+      "macUi": "PingFang SC"
+    }
+  }
+}

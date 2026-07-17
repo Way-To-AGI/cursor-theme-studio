@@ -15,3 +15,9 @@ themes/*
 !themes/ARCHITECTURE.md
 !themes/aurora-focus/
 !themes/aurora-focus/**
+!themes/quiet-editorial/
+!themes/quiet-editorial/**
+!themes/warm-studio/
+!themes/warm-studio/**
+!themes/cyber-neon/
+!themes/cyber-neon/**

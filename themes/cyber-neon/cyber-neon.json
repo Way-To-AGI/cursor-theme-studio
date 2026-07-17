@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "engine": "cursor-theme-studio",
+  "id": "cyber-neon",
+  "displayName": "Cyber Neon",
+  "version": "1.0.0",
+  "css": "theme.css",
+  "art": "background.png",
+  "design": {
+    "mode": "dark",
+    "direction": "cyber-neon",
+    "palette": {
+      "accent": "#F4E527",
+      "support": "#32D8FF",
+      "surface": "#080D18",
+      "ink": "#F5F7FA"
+    },
+    "shape": {
+      "radius": 16,
+      "shadow": "soft"
+    }
+  },
+  "background": {
+    "source": "builtin",
+    "position": "78% 35%",
+    "veil": 0.35,
+    "prompt": ""
+  },
+  "decorations": {
+    "density": "standard",
+    "sidebarWidget": {
+      "enabled": true,
+      "icon": "✦",
+      "eyebrow": "CURSOR / STUDIO",
+      "title": "Night circuit",
+      "caption": "Theme synchronized"
+    },
+    "cornerCard": {
+      "enabled": true,
+      "icon": "C",
+      "eyebrow": "CREATIVE SPACE",
+      "title": "luminous",
+      "caption": "Ideas in motion"
+    }
+  },
+  "copy": {
+    "brandTitle": "Cyber Neon",
+    "brandSubtitle": "Cursor Theme Studio",
+    "signature": "High contrast focus",
+    "tagline": "High contrast focus"
+  },
+  "baseTheme": {
+    "mode": "dark",
+    "accent": "#F4E527",
+    "contrast": 181,
+    "ink": "#F5F7FA",
+    "surface": "#080D18",
+    "fonts": {
+      "windowsCode": "Cascadia Code",
+      "windowsUi": "Microsoft YaHei UI",
+      "macCode": "SF Mono",
+      "macUi": "PingFang SC"
+    }
+  }
+}

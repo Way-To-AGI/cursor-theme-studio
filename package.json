@@ -1,6 +1,6 @@
 {
   "name": "cursor-theme-studio",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "private": true,
   "description": "Design, confirm, and safely apply beautiful reversible themes for Cursor via loopback CDP",
   "type": "module",
@@ -17,6 +17,9 @@
     "try": "node scripts/try.mjs",
     "interview": "node scripts/interview.mjs --multi",
     "interview:one": "node scripts/interview.mjs --one-round",
+    "list": "node scripts/list-themes.mjs",
+    "switch": "node scripts/switch-theme.mjs",
+    "gallery": "node scripts/gallery-server.mjs",
     "test": "node scripts/self-test.mjs && node scripts/studio-protocol-test.mjs",
     "restore": "node scripts/restore-theme.mjs"
   }

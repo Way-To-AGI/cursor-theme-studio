@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "engine": "cursor-theme-studio",
+  "id": "quiet-editorial",
+  "displayName": "Quiet Editorial",
+  "version": "1.0.0",
+  "css": "theme.css",
+  "art": "background.png",
+  "design": {
+    "mode": "light",
+    "direction": "quiet-editorial",
+    "palette": {
+      "accent": "#3867D6",
+      "support": "#7C8AA5",
+      "surface": "#F4F3EF",
+      "ink": "#20242B"
+    },
+    "shape": {
+      "radius": 16,
+      "shadow": "soft"
+    }
+  },
+  "background": {
+    "source": "builtin",
+    "position": "center right",
+    "veil": 0.78,
+    "prompt": ""
+  },
+  "decorations": {
+    "density": "light",
+    "sidebarWidget": {
+      "enabled": true,
+      "icon": "✦",
+      "eyebrow": "CURSOR / STUDIO",
+      "title": "Clear page",
+      "caption": "Theme synchronized"
+    },
+    "cornerCard": {
+      "enabled": false,
+      "icon": "C",
+      "eyebrow": "CREATIVE SPACE",
+      "title": "luminous",
+      "caption": "Ideas in motion"
+    }
+  },
+  "copy": {
+    "brandTitle": "Quiet Editorial",
+    "brandSubtitle": "Cursor Theme Studio",
+    "signature": "Clean paper, quiet mind",
+    "tagline": "Clean paper, quiet mind"
+  },
+  "baseTheme": {
+    "mode": "light",
+    "accent": "#3867D6",
+    "contrast": 140,
+    "ink": "#20242B",
+    "surface": "#F4F3EF",
+    "fonts": {
+      "windowsCode": "Cascadia Code",
+      "windowsUi": "Microsoft YaHei UI",
+      "macCode": "SF Mono",
+      "macUi": "PingFang SC"
+    }
+  }
+}

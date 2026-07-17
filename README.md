@@ -54,12 +54,35 @@ Opens a **separate** QA Cursor window. Your main Cursor stays untouched.
 
 ```bash
 node scripts/try.mjs
+# or
+node scripts/switch-theme.mjs aurora-focus
+```
+
+### Local HTML gallery (preview + switch + restore)
+
+```bash
+node scripts/gallery-server.mjs
+```
+
+Opens `http://127.0.0.1:48771/` where you can:
+
+- preview all local themes
+- click **切换到此主题** to apply
+- click **恢复原样** if anything looks wrong
+
+### Terminal shortcuts
+
+```bash
+node scripts/list-themes.mjs
+node scripts/switch-theme.mjs cyber-neon
+node scripts/switch-theme.mjs --restore
 ```
 
 Restore:
 
 ```bash
 node scripts/restore-theme.mjs
+# same as: node scripts/switch-theme.mjs --restore
 ```
 
 ## Confirm taste, then apply
@@ -114,8 +137,12 @@ references/interview.md  Taste confirmation rounds
 scripts/doctor.mjs       Env check
 scripts/interview.mjs    CLI interview → brief
 scripts/try.mjs          One-command QA apply
+scripts/list-themes.mjs  List local themes
+scripts/switch-theme.mjs Switch / restore shortcut
+scripts/gallery-server.mjs Local HTML theme picker
 scripts/theme-core.mjs   Compile / validate
-themes/aurora-focus/     Sample beautiful theme
+themes/*/                Sample + generated themes
+assets/gallery/          HTML gallery UI
 ```
 
 ## License
