@@ -5,5 +5,5 @@
 
 interface:
   display_name: "Cursor Theme Studio"
-  short_description: "交互式生成、预览、应用并验证精致 Cursor 主题"
-  default_prompt: "Use $cursor-theme-studio to guide me through creating and applying a polished Cursor theme."
+  short_description: "多轮确认审美，生成并安全应用好看的 Cursor 主题"
+  default_prompt: "Use $cursor-theme-studio to interview my taste (one or multi rounds), confirm a beautiful theme, then apply it in a QA Cursor window with try.mjs."

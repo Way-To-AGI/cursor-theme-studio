@@ -1,0 +1,23 @@
+{
+  "name": "cursor-theme-studio",
+  "version": "2.3.0",
+  "private": true,
+  "description": "Design, confirm, and safely apply beautiful reversible themes for Cursor via loopback CDP",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "cursor-theme-doctor": "./scripts/doctor.mjs",
+    "cursor-theme-try": "./scripts/try.mjs",
+    "cursor-theme-interview": "./scripts/interview.mjs"
+  },
+  "scripts": {
+    "doctor": "node scripts/doctor.mjs",
+    "try": "node scripts/try.mjs",
+    "interview": "node scripts/interview.mjs --multi",
+    "interview:one": "node scripts/interview.mjs --one-round",
+    "test": "node scripts/self-test.mjs && node scripts/studio-protocol-test.mjs",
+    "restore": "node scripts/restore-theme.mjs"
+  }
+}

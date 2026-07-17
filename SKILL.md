@@ -1,6 +1,6 @@
 ---
 name: cursor-theme-studio
-description: Interactively design, generate, preview, apply, verify, export, repair, or safely remove polished decorative themes for the official Cursor desktop app on macOS. Use when a user wants a guided HTML theme studio, a custom Cursor skin from a brief or reference image, a background image, coordinated colors, safe non-blocking decorations, a portable .cursor-theme package, live compatibility inspection, or one-click restoration without modifying Cursor.app or app.asar.
+description: Interactively design, confirm, generate, preview, apply, verify, export, or safely restore polished Cursor desktop themes on macOS. Use when a user wants a guided multi-round (or one-round) theme interview, a beautiful custom Cursor skin, background artwork, restrained decorations, a portable .cursor-theme package, or one-click QA apply without modifying Cursor.app.
 ---
 
 <!-- input: 用户审美意图 / brief / 可选背景图 -->
@@ -10,33 +10,53 @@ description: Interactively design, generate, preview, apply, verify, export, rep
 
 # Cursor Theme Studio
 
-Create reversible Cursor themes through a constrained design brief and loopback Chromium DevTools Protocol. Preserve the signed app, user data, extensions, and native interaction hierarchy.
+Create reversible, **good-looking** Cursor themes through a constrained brief and loopback CDP. Never modify `Cursor.app` / `app.asar`.
 
-## Choose the workflow
+## Easy path (recommended)
 
-- Start the studio with `node scripts/studio-server.mjs --wait-for-submit`. Keep that process attached until it emits `submitted`, then continue from `briefPath`.
-- Compile with `node scripts/compile-theme.mjs --brief /absolute/brief.json [--art /absolute/art.png]`.
-- Prefer isolated apply: `node scripts/start-theme.mjs --theme <id> --profile-path <qa-profile>`.
-- Primary profile apply only with explicit user authorization and `--restart-existing` if Cursor is already running without CDP.
-- Verify with `node scripts/runtime.mjs --verify --theme <id> --screenshot /absolute/theme.png`.
-- Export/import `.cursor-theme` packages; import replacement requires `--force`.
-- Restore with `node scripts/restore-theme.mjs`.
+1. `node scripts/doctor.mjs`
+2. Interview taste (Agent conversation **or** CLI):
+   - Multi-round: follow `references/interview.md`
+   - One-round CLI: `node scripts/interview.mjs --one-round`
+   - Multi-round CLI: `node scripts/interview.mjs --multi`
+3. Apply to an isolated QA window: `node scripts/try.mjs --theme <id>`
+4. Show screenshot / ask whether to keep or refine
+5. Only apply to the primary Cursor after explicit user authorization (`--restart-existing`)
 
-Read `references/theme-schema.md` before changing the brief. Read `references/design-system.md` before editing CSS. Read `references/runtime-notes.md` before changing launch/CDP/restore. Read `references/qa-inventory.md` before declaring completion.
+Read `references/interview.md` before asking taste questions. Beauty bar is mandatory: visible artwork, translucent glass, no patch-like floating cards.
+
+## Alternate: HTML studio
+
+```bash
+node scripts/studio-server.mjs --wait-for-submit
+```
+
+Keep the Agent turn attached until `submitted`, then compile from `briefPath` and continue with artwork → apply → verify.
+
+## CLI map
+
+| Command | Purpose |
+|---------|---------|
+| `scripts/doctor.mjs` | Environment check |
+| `scripts/interview.mjs` | Taste interview → brief (+ compile) |
+| `scripts/try.mjs` | One-command QA apply |
+| `scripts/compile-theme.mjs` | Brief → theme |
+| `scripts/start-theme.mjs` | Apply / launch with CDP |
+| `scripts/restore-theme.mjs` | Remove theme |
+| `scripts/export-theme.mjs` / `import-theme.mjs` | Portable `.cursor-theme` |
 
 ## Guardrails
 
-- Never patch, replace, re-sign, or take ownership of `Cursor.app` or `app.asar`.
-- Bind CDP only to `127.0.0.1`. Stop on port conflicts.
-- Never terminate Cursor unless the user authorized a restart.
-- Prefer `--profile-path` for QA so the user's primary session is untouched.
-- Reject `@import`, external CSS URLs, executable CSS, unsafe asset names, and packages over 30 MB.
-- Decorations are trusted templates only, `aria-hidden`, `pointer-events: none`.
-- Do not claim success from compilation alone. Require static validation, live verification, and screenshot inspection when applying.
+- CDP only on `127.0.0.1`
+- Prefer `--profile-path` / `try.mjs` so the user's main Cursor stays untouched
+- Never restart Cursor without explicit authorization
+- Decorations: spine filament + optional whisper signature only
+- Do not claim success without live verification / screenshot when applying
 
 ## Test
 
 ```bash
 node scripts/self-test.mjs
 node scripts/studio-protocol-test.mjs
+node scripts/doctor.mjs
 ```

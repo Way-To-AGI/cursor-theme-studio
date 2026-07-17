@@ -10,5 +10,6 @@ Agent 与贡献者改行为前必读。
 |------|------|------|
 | `theme-schema.md` | Brief/包格式 | 字段与安全约束 |
 | `design-system.md` | 视觉规范 | 对比度与装饰策略 |
+| `interview.md` | 审美访谈 | 一轮/多轮确认契约 |
 | `runtime-notes.md` | 运行时 | Cursor 路径、CDP、状态目录 |
 | `qa-inventory.md` | 验收清单 | 完成前检查项 |
