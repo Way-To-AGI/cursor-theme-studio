@@ -1,44 +1,44 @@
 {
   "id": "aurora-focus",
   "name": "Aurora Focus",
-  "version": "1.2.0",
+  "version": "2.1.0",
   "mode": "dark",
   "direction": "aurora-glass",
   "palette": {
-    "accent": "#72E6FF",
-    "support": "#B78CFF",
-    "surface": "#0D1420",
-    "ink": "#F2F7FA"
+    "accent": "#7EE7FF",
+    "support": "#D7B48A",
+    "surface": "#0A1018",
+    "ink": "#F4F7FA"
   },
   "background": {
-    "source": "builtin",
-    "position": "center right",
-    "veil": 0.48,
-    "prompt": "quiet aurora over a glass observatory"
+    "source": "upload",
+    "position": "72% 40%",
+    "veil": 0.35,
+    "prompt": "cinematic quiet aurora, teal and champagne light, deep ink negative space"
   },
   "shape": {
-    "radius": 18,
+    "radius": 20,
     "shadow": "soft"
   },
   "decorations": {
     "density": "standard",
     "sidebarWidget": {
       "enabled": true,
-      "icon": "✦",
-      "eyebrow": "CURSOR / STUDIO",
-      "title": "Focus mode",
-      "caption": "Theme synchronized"
+      "icon": "A",
+      "eyebrow": "AURORA ROOM",
+      "title": "Deep focus",
+      "caption": "Quiet light, clear mind"
     },
     "cornerCard": {
       "enabled": true,
-      "icon": "C",
-      "eyebrow": "CREATIVE SPACE",
-      "title": "Build with clarity",
-      "caption": "Ideas in motion"
+      "icon": "N",
+      "eyebrow": "NIGHT STUDIO",
+      "title": "Make it luminous",
+      "caption": "Beauty in the margins"
     }
   },
   "copy": {
-    "tagline": "Build with clarity"
+    "tagline": "Quiet light, clear mind"
   },
   "corrections": []
 }

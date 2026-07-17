@@ -253,22 +253,22 @@ html.cursor-theme-studio-skin .workspace-container,
 html.cursor-theme-studio-skin .agent-panel,
 html.cursor-theme-studio-skin .glass-agent-drop-target,
 html.cursor-theme-studio-skin .glass-sidebar-docked {
-  background-color: ${alpha(c.under, dark ? 0.18 : 0.28)} !important;
+  background-color: ${alpha(c.under, dark ? 0.08 : 0.18)} !important;
   background-image: none !important;
-  border-color: ${alpha(c.border, 0.55)} !important;
+  border-color: ${alpha(c.border, 0.45)} !important;
   color: var(--cts-ink) !important;
 }
 
 html.cursor-theme-studio-skin .agent-panel {
-  background-color: ${alpha(c.panel, dark ? 0.16 : 0.28)} !important;
-  box-shadow: inset 0 0 0 1px ${alpha(palette.accent, dark ? 0.22 : 0.14)} !important;
-  backdrop-filter: blur(10px) saturate(1.05) !important;
+  background-color: ${alpha(c.panel, dark ? 0.05 : 0.16)} !important;
+  box-shadow: inset 0 0 0 1px ${alpha(palette.accent, dark ? 0.14 : 0.10)} !important;
+  backdrop-filter: blur(8px) saturate(1.1) !important;
 }
 
 html.cursor-theme-studio-skin .glass-sidebar-docked {
-  background: linear-gradient(180deg, ${alpha(c.under, dark ? 0.42 : 0.55)}, ${alpha(c.panel, dark ? 0.28 : 0.42)}) !important;
-  box-shadow: inset -1px 0 ${alpha(palette.accent, dark ? 0.28 : 0.18)} !important;
-  backdrop-filter: blur(14px) saturate(1.08) !important;
+  background: linear-gradient(180deg, ${alpha(c.under, dark ? 0.28 : 0.40)}, ${alpha(c.panel, dark ? 0.12 : 0.24)}) !important;
+  box-shadow: inset -1px 0 ${alpha(palette.accent, dark ? 0.24 : 0.14)} !important;
+  backdrop-filter: blur(16px) saturate(1.15) !important;
 }
 
 html.cursor-theme-studio-skin .monaco-workbench .part.activitybar {
@@ -320,8 +320,9 @@ html.cursor-theme-studio-skin .monaco-workbench .part.titlebar {
 
 html.cursor-theme-studio-skin :is(.composer-bar, .composer-bar.editor, [class*="composer"], [class*="agent-input"], textarea, [contenteditable="true"]) {
   color: var(--cts-ink) !important;
-  border-color: ${alpha(palette.accent, dark ? 0.42 : 0.34)} !important;
-  border-radius: calc(var(--cts-radius) + 2px) !important;
+  border-color: ${alpha(palette.accent, dark ? 0.38 : 0.28)} !important;
+  border-radius: calc(var(--cts-radius) + 4px) !important;
+  box-shadow: 0 0 0 1px ${alpha(palette.accent, 0.08)}, 0 16px 40px ${alpha("#000000", dark ? 0.28 : 0.10)} !important;
 }
 
 html.cursor-theme-studio-skin :is([role="dialog"], [aria-modal="true"], [role="menu"], .monaco-dialog-box) {
@@ -351,29 +352,73 @@ html.cursor-theme-studio-skin :is(button, [role="button"], a):focus-visible {
   box-sizing: border-box;
   overflow: hidden;
   pointer-events: none;
-  border: 1px solid ${alpha(palette.accent, dark ? 0.45 : 0.32)};
-  border-radius: var(--cts-radius);
-  background: linear-gradient(145deg, ${alpha(c.elevated, dark ? 0.90 : 0.94)}, ${alpha(c.panel, dark ? 0.82 : 0.88)});
-  box-shadow: 0 14px 36px ${alpha("#000000", dark ? 0.34 : 0.14)}, inset 0 1px ${alpha("#FFFFFF", dark ? 0.08 : 0.74)};
-  backdrop-filter: blur(16px) saturate(1.12);
+  border: 1px solid ${alpha("#FFFFFF", dark ? 0.14 : 0.28)};
+  border-radius: calc(var(--cts-radius) + 2px);
+  background:
+    linear-gradient(155deg, ${alpha("#FFFFFF", dark ? 0.10 : 0.55)} 0%, ${alpha(c.elevated, dark ? 0.55 : 0.82)} 42%, ${alpha(c.panel, dark ? 0.72 : 0.88)} 100%);
+  box-shadow:
+    0 18px 50px ${alpha("#000000", dark ? 0.42 : 0.16)},
+    0 0 0 1px ${alpha(palette.accent, dark ? 0.18 : 0.12)},
+    inset 0 1px ${alpha("#FFFFFF", dark ? 0.18 : 0.85)};
+  backdrop-filter: blur(22px) saturate(1.25);
+}
+
+.cts-decoration-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: linear-gradient(180deg, ${palette.accent}, ${palette.support}, transparent);
+  opacity: 0.9;
 }
 
 .cts-decoration-card::after {
   content: "";
   position: absolute;
-  inset: auto -18% -52% 38%;
-  height: 110%;
+  inset: auto -28% -58% 28%;
+  height: 120%;
   border-radius: 50%;
-  background: radial-gradient(circle, ${alpha(palette.support, 0.23)}, transparent 68%);
+  background: radial-gradient(circle, ${alpha(palette.support, 0.34)}, ${alpha(palette.accent, 0.10)} 42%, transparent 70%);
 }
 
-.cts-decoration-inner { position: relative; z-index: 1; height: 100%; padding: 14px; box-sizing: border-box; }
-.cts-decoration-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 10px; color: ${dark ? c.under : "#FFFFFF"}; background: var(--cts-accent); font-weight: 800; box-shadow: 0 7px 18px ${alpha(palette.accent, 0.28)}; }
-.cts-decoration-eyebrow { margin-top: 12px; color: var(--cts-accent); font-size: 9px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
-.cts-decoration-title { margin-top: 4px; color: var(--cts-ink); font-size: 14px; line-height: 1.25; font-weight: 760; }
-.cts-decoration-caption { margin-top: 5px; color: var(--cts-muted); font-size: 10px; line-height: 1.35; }
-.cts-sidebar-widget { width: 176px; height: 142px; }
-.cts-corner-card { width: 178px; height: 112px; transform: rotate(-2deg); }
+.cts-decoration-inner { position: relative; z-index: 1; height: 100%; padding: 16px 16px 14px; box-sizing: border-box; }
+.cts-decoration-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  color: ${dark ? "#061018" : "#FFFFFF"};
+  background: linear-gradient(145deg, ${palette.accent}, ${mix(palette.accent, palette.support, 0.45)});
+  font-weight: 800;
+  letter-spacing: 0;
+  box-shadow: 0 10px 24px ${alpha(palette.accent, 0.34)}, inset 0 1px ${alpha("#FFFFFF", 0.45)};
+}
+.cts-decoration-eyebrow {
+  margin-top: 14px;
+  color: ${mix(palette.accent, "#FFFFFF", dark ? 0.18 : 0.05)};
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.cts-decoration-title {
+  margin-top: 6px;
+  color: var(--cts-ink);
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+.cts-decoration-caption {
+  margin-top: 6px;
+  color: var(--cts-muted);
+  font-size: 11px;
+  line-height: 1.4;
+  max-width: 18em;
+}
+.cts-sidebar-widget { width: 188px; height: 152px; }
+.cts-corner-card { width: 190px; height: 122px; transform: rotate(-1.5deg); }
 
 @media (max-width: 1179px), (max-height: 719px) {
   #cursor-theme-studio-decorations { display: none !important; }

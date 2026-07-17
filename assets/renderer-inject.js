@@ -91,8 +91,8 @@
       "pointer-events:none",
       "background-repeat:no-repeat",
       "background-size:cover,cover,cover",
-      "background-position:center,center right,center",
-      "background-image:linear-gradient(90deg, rgba(13,20,32,0.48), rgba(13,20,32,0.22) 55%, rgba(13,20,32,0.08)), var(--cursor-theme-art, none), radial-gradient(circle at 82% 8%, rgba(165,139,250,0.28), transparent 34%), linear-gradient(145deg, #0a1018, #0d1420 52%, #102033)",
+      "background-position:center,78% 35%,center",
+      "background-image:linear-gradient(105deg, rgba(6,10,16,0.55) 0%, rgba(6,10,16,0.18) 38%, rgba(6,10,16,0.02) 68%, rgba(6,10,16,0.12) 100%), var(--cursor-theme-art, none), radial-gradient(circle at 80% 20%, rgba(126,231,255,0.22), transparent 40%), linear-gradient(145deg, #05080e, #0a1018 55%, #121a24)",
     ].join(";");
     return backdrop;
   };
@@ -135,8 +135,8 @@
     if (!theme.decorations.sidebarWidget.enabled) return hideCard(node, "disabled");
     const bounds = visibleRect(aside);
     if (!bounds || bounds.width < 160 || bounds.height < 420) return hideCard(node, "missing-or-compact-sidebar");
-    const width = Math.min(176, bounds.width - 20);
-    const height = 142;
+    const width = Math.min(188, bounds.width - 20);
+    const height = 152;
     const insetTop = bounds.top + 64;
     const insetBottom = bounds.bottom - 56;
     const blockers = controls
@@ -168,8 +168,8 @@
     if (!theme.decorations.cornerCard.enabled) return hideCard(node, "disabled");
     const bounds = visibleRect(main);
     if (!bounds || bounds.width < 640 || bounds.height < 420) return hideCard(node, "missing-or-compact-editor");
-    const width = 178;
-    const height = 112;
+    const width = 190;
+    const height = 122;
     const candidates = [
       { left: bounds.right - width - 24, top: bounds.bottom - height - 72 },
       { left: bounds.right - width - 24, top: bounds.top + Math.max(72, bounds.height * 0.56) },
