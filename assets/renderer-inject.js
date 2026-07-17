@@ -67,22 +67,15 @@
     if (kind === "spine") {
       const rail = document.createElement("div");
       rail.className = "cts-spine-rail";
-      const label = document.createElement("div");
-      label.className = "cts-spine-label";
-      label.textContent = String(config.title || config.eyebrow || "").trim();
-      node.append(rail, label);
+      node.append(rail);
       return node;
     }
     const glow = document.createElement("div");
     glow.className = "cts-signature-glow";
-    const mark = document.createElement("div");
-    mark.className = "cts-signature-mark";
-    mark.textContent = String(config.icon || "·").slice(0, 2);
     const copy = document.createElement("div");
     copy.className = "cts-signature-copy";
-    addText(copy, "cts-signature-eyebrow", config.eyebrow);
     addText(copy, "cts-signature-title", config.title);
-    node.append(glow, mark, copy);
+    node.append(glow, copy);
     return node;
   };
 
@@ -146,13 +139,13 @@
     if (!theme.decorations.sidebarWidget.enabled) return hideCard(node, "disabled");
     const bounds = visibleRect(aside);
     if (!bounds || bounds.width < 140 || bounds.height < 360) return hideCard(node, "missing-or-compact-sidebar");
-    const width = 28;
-    const height = Math.min(220, Math.max(140, bounds.height * 0.28));
+    const width = 12;
+    const height = Math.min(260, Math.max(160, bounds.height * 0.34));
     const candidate = {
-      left: bounds.right - width - 8,
-      top: bounds.top + (bounds.height - height) * 0.58,
-      right: bounds.right - 8,
-      bottom: bounds.top + (bounds.height - height) * 0.58 + height,
+      left: bounds.right - width - 4,
+      top: bounds.top + (bounds.height - height) * 0.52,
+      right: bounds.right - 4,
+      bottom: bounds.top + (bounds.height - height) * 0.52 + height,
       width,
       height,
     };
@@ -166,8 +159,8 @@
     if (!theme.decorations.cornerCard.enabled) return hideCard(node, "disabled");
     const bounds = visibleRect(main);
     if (!bounds || bounds.width < 520 || bounds.height < 360) return hideCard(node, "missing-or-compact-editor");
-    const width = 210;
-    const height = 64;
+    const width = 168;
+    const height = 36;
     const candidates = [
       { left: bounds.right - width - 28, top: bounds.bottom - height - 36 },
       { left: bounds.right - width - 28, top: bounds.top + Math.max(80, bounds.height * 0.62) },

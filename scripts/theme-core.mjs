@@ -354,13 +354,11 @@ html.cursor-theme-studio-skin :is(button, [role="button"], a):focus-visible {
   overflow: visible;
 }
 
-/* Integrated spine: thin light filament + vertical label, not a floating card. */
+/* Integrated spine: thin light filament only. */
 .cts-spine {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 14px;
+  align-items: stretch;
+  justify-content: center;
   padding: 0;
   background: transparent;
   border: 0;
@@ -369,33 +367,19 @@ html.cursor-theme-studio-skin :is(button, [role="button"], a):focus-visible {
 
 .cts-spine-rail {
   width: 2px;
-  flex: 1 1 auto;
-  min-height: 72px;
+  height: 100%;
   border-radius: 999px;
-  background: linear-gradient(180deg, transparent 0%, ${palette.accent} 18%, ${palette.support} 58%, transparent 100%);
-  box-shadow: 0 0 18px ${alpha(palette.accent, 0.45)}, 0 0 2px ${alpha(palette.accent, 0.8)};
-  opacity: 0.9;
+  background: linear-gradient(180deg, transparent 0%, ${palette.accent} 22%, ${palette.support} 62%, transparent 100%);
+  box-shadow: 0 0 16px ${alpha(palette.accent, 0.4)}, 0 0 2px ${alpha(palette.accent, 0.75)};
+  opacity: 0.85;
 }
 
-.cts-spine-label {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  color: ${alpha(mix(palette.ink, palette.accent, 0.35), 0.72)};
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-/* Soft signature: ambient glow + quiet mark, no boxed chrome. */
+/* Soft signature: ambient glow + whisper text, no badge chrome. */
 .cts-signature {
-  display: grid;
-  grid-template-columns: 28px 1fr;
-  grid-template-rows: auto auto;
-  column-gap: 12px;
-  align-items: center;
-  padding: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 0 4px 2px 0;
   background: transparent;
   border: 0;
   box-shadow: none;
@@ -403,54 +387,28 @@ html.cursor-theme-studio-skin :is(button, [role="button"], a):focus-visible {
 
 .cts-signature-glow {
   position: absolute;
-  right: -40px;
-  bottom: -48px;
-  width: 180px;
-  height: 140px;
+  right: -36px;
+  bottom: -40px;
+  width: 160px;
+  height: 120px;
   border-radius: 50%;
-  background: radial-gradient(circle, ${alpha(palette.accent, 0.22)}, ${alpha(palette.support, 0.08)} 45%, transparent 72%);
+  background: radial-gradient(circle, ${alpha(palette.accent, 0.18)}, ${alpha(palette.support, 0.06)} 48%, transparent 74%);
   filter: blur(2px);
   z-index: 0;
-}
-
-.cts-signature-mark {
-  grid-row: 1 / span 2;
-  position: relative;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 999px;
-  color: ${dark ? "#071018" : "#FFFFFF"};
-  background: linear-gradient(145deg, ${palette.accent}, ${mix(palette.accent, palette.support, 0.4)});
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  box-shadow: 0 0 0 1px ${alpha("#FFFFFF", 0.18)}, 0 8px 22px ${alpha(palette.accent, 0.28)};
 }
 
 .cts-signature-copy {
   position: relative;
   z-index: 1;
-  display: grid;
-  gap: 2px;
-}
-
-.cts-signature-eyebrow {
-  color: ${alpha(palette.accent, 0.9)};
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
 }
 
 .cts-signature-title {
-  color: ${alpha(palette.ink, 0.88)};
-  font-size: 13px;
-  font-weight: 560;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
+  color: ${alpha(palette.ink, 0.55)};
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  font-variant: small-caps;
 }
 
 @media (max-width: 1179px), (max-height: 719px) {
