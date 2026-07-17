@@ -172,7 +172,7 @@ const verifyExpression = (expected, smoke) => `(() => {
   const visible = (value) => Boolean(value && value.width > 0 && value.height > 0);
   const overlap = (a,b) => a && b && a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
   const decorations = document.getElementById('cursor-theme-studio-decorations');
-  const cards = decorations ? [...decorations.querySelectorAll('.cts-decoration-card:not([hidden])')] : [];
+  const cards = decorations ? [...decorations.querySelectorAll('.cts-decoration:not([hidden])')] : [];
   const controls = [...document.querySelectorAll('button,a[href],input,textarea,select,[contenteditable="true"],[role="button"],[role="link"],[role="menuitem"],[role="option"],[role="tab"]')]
     .filter(node => !node.closest('#cursor-theme-studio-decorations')).map(rect).filter(visible);
   const collisions = cards.flatMap(card => controls.filter(control => overlap(rect(card), control))).length;
@@ -189,7 +189,7 @@ const verifyExpression = (expected, smoke) => `(() => {
     decorationsPointerEvents: decorations ? getComputedStyle(decorations).pointerEvents : null,
     decorationsBodySibling: decorations?.parentElement === document.body,
     visibleDecorations: cards.map(card => ({ slot: card.dataset.slot || null, rect: rect(card) })),
-    hiddenDecorations: decorations ? [...decorations.querySelectorAll('.cts-decoration-card[hidden]')].map(card => ({ slot: card.dataset.slot || null, reason: card.dataset.hiddenReason || null })) : [],
+    hiddenDecorations: decorations ? [...decorations.querySelectorAll('.cts-decoration[hidden]')].map(card => ({ slot: card.dataset.slot || null, reason: card.dataset.hiddenReason || null })) : [],
     decorationCollisions: collisions,
     workbench: rect(workbench), sidebar: rect(sidebar), editor: rect(editor),
     nativeControls: controls.length,

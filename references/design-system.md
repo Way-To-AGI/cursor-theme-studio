@@ -10,6 +10,13 @@
 - Prefer VS Code CSS variables (`--vscode-*`) plus Cursor overlays (`--composer-pane-background`, `--cursor-text-link`).
 - Artwork detail stays away from sidebar, editor reading column, and composer.
 - Use a legibility veil; avoid rectangular seams.
-- Decorations: small area, auto-hide on dialogs/compact windows/collisions.
 - Respect `prefers-reduced-motion`.
 - Never mutate native layout geometry (`position`, `z-index`, `width`, `height`, `display`, `pointer-events` on workbench parts).
+
+## Decorations policy
+
+- Prefer integrated atmosphere over floating cards.
+- Trusted templates are `sidebar spine` (thin light rail + vertical label) and `corner signature` (soft glow + quiet mark).
+- Never use heavy boxed chrome that reads as a bolted-on patch.
+- Keep decorations `aria-hidden` and `pointer-events: none`.
+- Hide on dialogs, compact windows, missing anchors, or collisions.

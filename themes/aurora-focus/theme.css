@@ -53,7 +53,7 @@
   background-image: linear-gradient(90deg, rgba(7, 11, 16, 0.490) 0%, rgba(7, 11, 16, 0.350) 58%, rgba(7, 11, 16, 0.320) 100%), var(--cursor-theme-art, none), radial-gradient(circle at 82% 8%, rgba(215, 180, 138, 0.160), transparent 34%), linear-gradient(145deg, #070B10, #0A1018 52%, #13212A) !important;
   background-repeat: no-repeat !important;
   background-size: cover, cover, cover !important;
-  background-position: center, 72% 40%, center !important;
+  background-position: center, 78% 35%, center !important;
 }
 
 html.cursor-theme-studio-skin body,
@@ -114,7 +114,7 @@ html.cursor-theme-studio-skin .monaco-workbench .part.editor > .content.cursor-t
   background-image: linear-gradient(90deg, rgba(7, 11, 16, 0.490) 0%, rgba(7, 11, 16, 0.350) 58%, rgba(7, 11, 16, 0.320) 100%), var(--cursor-theme-art), radial-gradient(circle at 82% 8%, rgba(215, 180, 138, 0.160), transparent 34%), linear-gradient(145deg, #070B10, #0A1018 52%, #13212A) !important;
   background-repeat: no-repeat !important;
   background-size: cover, cover, cover !important;
-  background-position: center, 72% 40%, center !important;
+  background-position: center, 78% 35%, center !important;
 }
 
 html.cursor-theme-studio-skin .monaco-workbench .part.auxiliarybar {
@@ -164,78 +164,111 @@ html.cursor-theme-studio-skin :is(button, [role="button"], a):focus-visible {
 #cursor-theme-studio-decorations[hidden],
 #cursor-theme-studio-decorations [hidden] { display: none !important; }
 
-.cts-decoration-card {
+.cts-decoration {
   position: fixed;
   box-sizing: border-box;
-  overflow: hidden;
   pointer-events: none;
-  border: 1px solid rgba(255, 255, 255, 0.140);
-  border-radius: calc(var(--cts-radius) + 2px);
-  background:
-    linear-gradient(155deg, rgba(255, 255, 255, 0.100) 0%, rgba(37, 42, 49, 0.550) 42%, rgba(26, 32, 39, 0.720) 100%);
-  box-shadow:
-    0 18px 50px rgba(0, 0, 0, 0.420),
-    0 0 0 1px rgba(126, 231, 255, 0.180),
-    inset 0 1px rgba(255, 255, 255, 0.180);
-  backdrop-filter: blur(22px) saturate(1.25);
+  overflow: visible;
 }
 
-.cts-decoration-card::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
+/* Integrated spine: thin light filament + vertical label, not a floating card. */
+.cts-spine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.cts-spine-rail {
   width: 2px;
-  background: linear-gradient(180deg, #7EE7FF, #D7B48A, transparent);
+  flex: 1 1 auto;
+  min-height: 72px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, transparent 0%, #7EE7FF 18%, #D7B48A 58%, transparent 100%);
+  box-shadow: 0 0 18px rgba(126, 231, 255, 0.450), 0 0 2px rgba(126, 231, 255, 0.800);
   opacity: 0.9;
 }
 
-.cts-decoration-card::after {
-  content: "";
-  position: absolute;
-  inset: auto -28% -58% 28%;
-  height: 120%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(215, 180, 138, 0.340), rgba(126, 231, 255, 0.100) 42%, transparent 70%);
+.cts-spine-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  color: rgba(203, 241, 252, 0.720);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.cts-decoration-inner { position: relative; z-index: 1; height: 100%; padding: 16px 16px 14px; box-sizing: border-box; }
-.cts-decoration-icon {
+/* Soft signature: ambient glow + quiet mark, no boxed chrome. */
+.cts-signature {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 12px;
+  align-items: center;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.cts-signature-glow {
+  position: absolute;
+  right: -40px;
+  bottom: -48px;
+  width: 180px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(126, 231, 255, 0.220), rgba(215, 180, 138, 0.080) 45%, transparent 72%);
+  filter: blur(2px);
+  z-index: 0;
+}
+
+.cts-signature-mark {
+  grid-row: 1 / span 2;
+  position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 12px;
-  color: #061018;
-  background: linear-gradient(145deg, #7EE7FF, #A6D0CA);
-  font-weight: 800;
-  letter-spacing: 0;
-  box-shadow: 0 10px 24px rgba(126, 231, 255, 0.340), inset 0 1px rgba(255, 255, 255, 0.450);
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  color: #071018;
+  background: linear-gradient(145deg, #7EE7FF, #A2D3D0);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.180), 0 8px 22px rgba(126, 231, 255, 0.280);
 }
-.cts-decoration-eyebrow {
-  margin-top: 14px;
-  color: #95EBFF;
+
+.cts-signature-copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 2px;
+}
+
+.cts-signature-eyebrow {
+  color: rgba(126, 231, 255, 0.900);
   font-size: 9px;
-  font-weight: 750;
-  letter-spacing: .18em;
+  font-weight: 700;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
-.cts-decoration-title {
-  margin-top: 6px;
-  color: var(--cts-ink);
-  font-size: 15px;
-  line-height: 1.2;
-  font-weight: 650;
-  letter-spacing: -0.02em;
+
+.cts-signature-title {
+  color: rgba(244, 247, 250, 0.880);
+  font-size: 13px;
+  font-weight: 560;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
 }
-.cts-decoration-caption {
-  margin-top: 6px;
-  color: var(--cts-muted);
-  font-size: 11px;
-  line-height: 1.4;
-  max-width: 18em;
-}
-.cts-sidebar-widget { width: 188px; height: 152px; }
-.cts-corner-card { width: 190px; height: 122px; transform: rotate(-1.5deg); }
 
 @media (max-width: 1179px), (max-height: 719px) {
   #cursor-theme-studio-decorations { display: none !important; }

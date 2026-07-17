@@ -60,18 +60,30 @@
     return node;
   };
 
-  const createCard = (className, config) => {
-    const card = document.createElement("section");
-    card.className = `cts-decoration-card ${className}`;
-    card.hidden = true;
-    const inner = document.createElement("div");
-    inner.className = "cts-decoration-inner";
-    addText(inner, "cts-decoration-icon", config.icon);
-    addText(inner, "cts-decoration-eyebrow", config.eyebrow);
-    addText(inner, "cts-decoration-title", config.title);
-    addText(inner, "cts-decoration-caption", config.caption);
-    card.appendChild(inner);
-    return card;
+  const createDecoration = (className, config, kind) => {
+    const node = document.createElement("section");
+    node.className = `cts-decoration ${className}`;
+    node.hidden = true;
+    if (kind === "spine") {
+      const rail = document.createElement("div");
+      rail.className = "cts-spine-rail";
+      const label = document.createElement("div");
+      label.className = "cts-spine-label";
+      label.textContent = String(config.title || config.eyebrow || "").trim();
+      node.append(rail, label);
+      return node;
+    }
+    const glow = document.createElement("div");
+    glow.className = "cts-signature-glow";
+    const mark = document.createElement("div");
+    mark.className = "cts-signature-mark";
+    mark.textContent = String(config.icon || "·").slice(0, 2);
+    const copy = document.createElement("div");
+    copy.className = "cts-signature-copy";
+    addText(copy, "cts-signature-eyebrow", config.eyebrow);
+    addText(copy, "cts-signature-title", config.title);
+    node.append(glow, mark, copy);
+    return node;
   };
 
   const ensureBackdrop = () => {
@@ -83,7 +95,6 @@
       backdrop.setAttribute("aria-hidden", "true");
       document.body.prepend(backdrop);
     }
-    // Inline critical paint so glass shells cannot zero-out an empty layer.
     backdrop.style.cssText = [
       "position:fixed",
       "inset:0",
@@ -106,9 +117,9 @@
       container.setAttribute("aria-hidden", "true");
       container.dataset.themeId = theme.id;
       container.dataset.themeVersion = `${theme.id}@${theme.version}`;
-      const sidebar = createCard("cts-sidebar-widget", theme.decorations.sidebarWidget);
+      const sidebar = createDecoration("cts-spine", theme.decorations.sidebarWidget, "spine");
       sidebar.dataset.slot = "sidebar-gap-widget";
-      const corner = createCard("cts-corner-card", theme.decorations.cornerCard);
+      const corner = createDecoration("cts-signature", theme.decorations.cornerCard, "signature");
       corner.dataset.slot = "bottom-corner-card";
       container.append(sidebar, corner);
       document.body.appendChild(container);
@@ -130,54 +141,41 @@
     node.dataset.hiddenReason = reason;
   };
 
-  const placeSidebarWidget = (node, aside, controls) => {
+  const placeSpine = (node, aside, controls) => {
     hideCard(node, "not-placed");
     if (!theme.decorations.sidebarWidget.enabled) return hideCard(node, "disabled");
     const bounds = visibleRect(aside);
-    if (!bounds || bounds.width < 160 || bounds.height < 420) return hideCard(node, "missing-or-compact-sidebar");
-    const width = Math.min(188, bounds.width - 20);
-    const height = 152;
-    const insetTop = bounds.top + 64;
-    const insetBottom = bounds.bottom - 56;
-    const blockers = controls
-      .filter((rect) => rect.right > bounds.left && rect.left < bounds.right && rect.bottom > insetTop && rect.top < insetBottom)
-      .sort((a, b) => a.top - b.top);
-    const gaps = [];
-    let cursor = insetTop;
-    for (const blocker of blockers) {
-      if (blocker.top > cursor) gaps.push({ top: cursor, bottom: blocker.top });
-      cursor = Math.max(cursor, blocker.bottom);
-    }
-    if (cursor < insetBottom) gaps.push({ top: cursor, bottom: insetBottom });
-    const gap = gaps.filter((item) => item.bottom - item.top >= height + 18).sort((a, b) => (b.bottom - b.top) - (a.bottom - a.top))[0];
-    if (!gap) return hideCard(node, "no-safe-gap");
+    if (!bounds || bounds.width < 140 || bounds.height < 360) return hideCard(node, "missing-or-compact-sidebar");
+    const width = 28;
+    const height = Math.min(220, Math.max(140, bounds.height * 0.28));
     const candidate = {
-      left: bounds.left + (bounds.width - width) / 2,
-      top: gap.top + (gap.bottom - gap.top - height) / 2,
-      right: bounds.left + (bounds.width + width) / 2,
-      bottom: gap.top + (gap.bottom - gap.top + height) / 2,
+      left: bounds.right - width - 8,
+      top: bounds.top + (bounds.height - height) * 0.58,
+      right: bounds.right - 8,
+      bottom: bounds.top + (bounds.height - height) * 0.58 + height,
       width,
       height,
     };
-    if (controls.some((rect) => overlaps(candidate, expand(rect, 8)))) return hideCard(node, "interactive-collision");
+    if (candidate.top < bounds.top + 72 || candidate.bottom > bounds.bottom - 64) return hideCard(node, "no-safe-gap");
+    if (controls.some((rect) => overlaps(candidate, expand(rect, 6)))) return hideCard(node, "interactive-collision");
     setBox(node, candidate);
   };
 
-  const placeCornerCard = (node, main, controls) => {
+  const placeSignature = (node, main, controls) => {
     hideCard(node, "not-placed");
     if (!theme.decorations.cornerCard.enabled) return hideCard(node, "disabled");
     const bounds = visibleRect(main);
-    if (!bounds || bounds.width < 640 || bounds.height < 420) return hideCard(node, "missing-or-compact-editor");
-    const width = 190;
-    const height = 122;
+    if (!bounds || bounds.width < 520 || bounds.height < 360) return hideCard(node, "missing-or-compact-editor");
+    const width = 210;
+    const height = 64;
     const candidates = [
-      { left: bounds.right - width - 24, top: bounds.bottom - height - 72 },
-      { left: bounds.right - width - 24, top: bounds.top + Math.max(72, bounds.height * 0.56) },
+      { left: bounds.right - width - 28, top: bounds.bottom - height - 36 },
+      { left: bounds.right - width - 28, top: bounds.top + Math.max(80, bounds.height * 0.62) },
     ];
     for (const position of candidates) {
       const candidate = { ...position, right: position.left + width, bottom: position.top + height, width, height };
       if (candidate.top < bounds.top + 48 || candidate.bottom > bounds.bottom - 12) continue;
-      if (controls.some((rect) => overlaps(candidate, expand(rect, 10)))) continue;
+      if (controls.some((rect) => overlaps(candidate, expand(rect, 8)))) continue;
       setBox(node, candidate);
       return;
     }
@@ -207,8 +205,8 @@
 
     ensureBackdrop();
     const container = ensureDecorations();
-    const sidebarWidget = container.querySelector(".cts-sidebar-widget");
-    const cornerCard = container.querySelector(".cts-corner-card");
+    const sidebarWidget = container.querySelector(".cts-spine");
+    const cornerCard = container.querySelector(".cts-signature");
 
     let workbench = null;
     let glassShell = null;
@@ -249,8 +247,8 @@
       return;
     }
     const controls = interactiveRects();
-    placeSidebarWidget(sidebarWidget, sidebar, controls);
-    placeCornerCard(cornerCard, editor || workbench || glassShell || document.body, controls);
+    placeSpine(sidebarWidget, sidebar, controls);
+    placeSignature(cornerCard, editor || workbench || glassShell || document.body, controls);
   };
 
   const cleanup = () => {

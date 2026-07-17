@@ -347,78 +347,111 @@ html.cursor-theme-studio-skin :is(button, [role="button"], a):focus-visible {
 #cursor-theme-studio-decorations[hidden],
 #cursor-theme-studio-decorations [hidden] { display: none !important; }
 
-.cts-decoration-card {
+.cts-decoration {
   position: fixed;
   box-sizing: border-box;
-  overflow: hidden;
   pointer-events: none;
-  border: 1px solid ${alpha("#FFFFFF", dark ? 0.14 : 0.28)};
-  border-radius: calc(var(--cts-radius) + 2px);
-  background:
-    linear-gradient(155deg, ${alpha("#FFFFFF", dark ? 0.10 : 0.55)} 0%, ${alpha(c.elevated, dark ? 0.55 : 0.82)} 42%, ${alpha(c.panel, dark ? 0.72 : 0.88)} 100%);
-  box-shadow:
-    0 18px 50px ${alpha("#000000", dark ? 0.42 : 0.16)},
-    0 0 0 1px ${alpha(palette.accent, dark ? 0.18 : 0.12)},
-    inset 0 1px ${alpha("#FFFFFF", dark ? 0.18 : 0.85)};
-  backdrop-filter: blur(22px) saturate(1.25);
+  overflow: visible;
 }
 
-.cts-decoration-card::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
+/* Integrated spine: thin light filament + vertical label, not a floating card. */
+.cts-spine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.cts-spine-rail {
   width: 2px;
-  background: linear-gradient(180deg, ${palette.accent}, ${palette.support}, transparent);
+  flex: 1 1 auto;
+  min-height: 72px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, transparent 0%, ${palette.accent} 18%, ${palette.support} 58%, transparent 100%);
+  box-shadow: 0 0 18px ${alpha(palette.accent, 0.45)}, 0 0 2px ${alpha(palette.accent, 0.8)};
   opacity: 0.9;
 }
 
-.cts-decoration-card::after {
-  content: "";
-  position: absolute;
-  inset: auto -28% -58% 28%;
-  height: 120%;
-  border-radius: 50%;
-  background: radial-gradient(circle, ${alpha(palette.support, 0.34)}, ${alpha(palette.accent, 0.10)} 42%, transparent 70%);
+.cts-spine-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  color: ${alpha(mix(palette.ink, palette.accent, 0.35), 0.72)};
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.cts-decoration-inner { position: relative; z-index: 1; height: 100%; padding: 16px 16px 14px; box-sizing: border-box; }
-.cts-decoration-icon {
+/* Soft signature: ambient glow + quiet mark, no boxed chrome. */
+.cts-signature {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 12px;
+  align-items: center;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.cts-signature-glow {
+  position: absolute;
+  right: -40px;
+  bottom: -48px;
+  width: 180px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, ${alpha(palette.accent, 0.22)}, ${alpha(palette.support, 0.08)} 45%, transparent 72%);
+  filter: blur(2px);
+  z-index: 0;
+}
+
+.cts-signature-mark {
+  grid-row: 1 / span 2;
+  position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 12px;
-  color: ${dark ? "#061018" : "#FFFFFF"};
-  background: linear-gradient(145deg, ${palette.accent}, ${mix(palette.accent, palette.support, 0.45)});
-  font-weight: 800;
-  letter-spacing: 0;
-  box-shadow: 0 10px 24px ${alpha(palette.accent, 0.34)}, inset 0 1px ${alpha("#FFFFFF", 0.45)};
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  color: ${dark ? "#071018" : "#FFFFFF"};
+  background: linear-gradient(145deg, ${palette.accent}, ${mix(palette.accent, palette.support, 0.4)});
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: 0 0 0 1px ${alpha("#FFFFFF", 0.18)}, 0 8px 22px ${alpha(palette.accent, 0.28)};
 }
-.cts-decoration-eyebrow {
-  margin-top: 14px;
-  color: ${mix(palette.accent, "#FFFFFF", dark ? 0.18 : 0.05)};
+
+.cts-signature-copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 2px;
+}
+
+.cts-signature-eyebrow {
+  color: ${alpha(palette.accent, 0.9)};
   font-size: 9px;
-  font-weight: 750;
-  letter-spacing: .18em;
+  font-weight: 700;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
-.cts-decoration-title {
-  margin-top: 6px;
-  color: var(--cts-ink);
-  font-size: 15px;
-  line-height: 1.2;
-  font-weight: 650;
-  letter-spacing: -0.02em;
+
+.cts-signature-title {
+  color: ${alpha(palette.ink, 0.88)};
+  font-size: 13px;
+  font-weight: 560;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
 }
-.cts-decoration-caption {
-  margin-top: 6px;
-  color: var(--cts-muted);
-  font-size: 11px;
-  line-height: 1.4;
-  max-width: 18em;
-}
-.cts-sidebar-widget { width: 188px; height: 152px; }
-.cts-corner-card { width: 190px; height: 122px; transform: rotate(-1.5deg); }
 
 @media (max-width: 1179px), (max-height: 719px) {
   #cursor-theme-studio-decorations { display: none !important; }

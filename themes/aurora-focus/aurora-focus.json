@@ -3,7 +3,7 @@
   "engine": "cursor-theme-studio",
   "id": "aurora-focus",
   "displayName": "Aurora Focus",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "css": "theme.css",
   "art": "background.png",
   "design": {
@@ -22,7 +22,7 @@
   },
   "background": {
     "source": "upload",
-    "position": "72% 40%",
+    "position": "78% 35%",
     "veil": 0.35,
     "prompt": "cinematic quiet aurora, teal and champagne light, deep ink negative space"
   },
@@ -31,9 +31,9 @@
     "sidebarWidget": {
       "enabled": true,
       "icon": "A",
-      "eyebrow": "AURORA ROOM",
+      "eyebrow": "AURORA",
       "title": "Deep focus",
-      "caption": "Quiet light, clear mind"
+      "caption": "Quiet light"
     },
     "cornerCard": {
       "enabled": true,
