@@ -163,6 +163,7 @@ const removeExpression = `(() => {
   document.documentElement?.style.removeProperty('--cursor-theme-art');
   document.getElementById('cursor-theme-studio-style')?.remove();
   document.getElementById('cursor-theme-studio-decorations')?.remove();
+  document.getElementById('cursor-theme-studio-backdrop')?.remove();
   return true;
 })()`;
 

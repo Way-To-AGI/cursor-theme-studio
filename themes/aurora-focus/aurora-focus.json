@@ -3,7 +3,7 @@
   "engine": "cursor-theme-studio",
   "id": "aurora-focus",
   "displayName": "Aurora Focus",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "css": "theme.css",
   "art": "background.png",
   "design": {
@@ -23,7 +23,7 @@
   "background": {
     "source": "builtin",
     "position": "center right",
-    "veil": 0.72,
+    "veil": 0.48,
     "prompt": "quiet aurora over a glass observatory"
   },
   "decorations": {

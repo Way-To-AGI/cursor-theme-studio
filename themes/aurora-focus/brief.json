@@ -1,7 +1,7 @@
 {
   "id": "aurora-focus",
   "name": "Aurora Focus",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "mode": "dark",
   "direction": "aurora-glass",
   "palette": {
@@ -13,7 +13,7 @@
   "background": {
     "source": "builtin",
     "position": "center right",
-    "veil": 0.72,
+    "veil": 0.48,
     "prompt": "quiet aurora over a glass observatory"
   },
   "shape": {

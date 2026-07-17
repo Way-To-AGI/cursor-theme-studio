@@ -7,6 +7,7 @@
   const STATE_KEY = "__CURSOR_THEME_STUDIO_STATE__";
   const STYLE_ID = "cursor-theme-studio-style";
   const DECORATIONS_ID = "cursor-theme-studio-decorations";
+  const BACKDROP_ID = "cursor-theme-studio-backdrop";
   const MARKER = "cursor-theme-studio-skin";
   window.__CURSOR_THEME_STUDIO_DISABLED__ = false;
 
@@ -71,6 +72,29 @@
     addText(inner, "cts-decoration-caption", config.caption);
     card.appendChild(inner);
     return card;
+  };
+
+  const ensureBackdrop = () => {
+    let backdrop = document.getElementById(BACKDROP_ID);
+    if (!backdrop || backdrop.parentElement !== document.body) {
+      backdrop?.remove();
+      backdrop = document.createElement("div");
+      backdrop.id = BACKDROP_ID;
+      backdrop.setAttribute("aria-hidden", "true");
+      document.body.prepend(backdrop);
+    }
+    // Inline critical paint so glass shells cannot zero-out an empty layer.
+    backdrop.style.cssText = [
+      "position:fixed",
+      "inset:0",
+      "z-index:0",
+      "pointer-events:none",
+      "background-repeat:no-repeat",
+      "background-size:cover,cover,cover",
+      "background-position:center,center right,center",
+      "background-image:linear-gradient(90deg, rgba(13,20,32,0.48), rgba(13,20,32,0.22) 55%, rgba(13,20,32,0.08)), var(--cursor-theme-art, none), radial-gradient(circle at 82% 8%, rgba(165,139,250,0.28), transparent 34%), linear-gradient(145deg, #0a1018, #0d1420 52%, #102033)",
+    ].join(";");
+    return backdrop;
   };
 
   const ensureDecorations = () => {
@@ -175,11 +199,13 @@
       style.id = STYLE_ID;
       (document.head || root).appendChild(style);
     }
-    if (style.dataset.themeVersion !== `${theme.id}@${theme.version}`) {
+    if (style.textContent !== cssText) {
       style.textContent = cssText;
       style.dataset.themeVersion = `${theme.id}@${theme.version}`;
+      style.dataset.cssBytes = String(cssText.length);
     }
 
+    ensureBackdrop();
     const container = ensureDecorations();
     const sidebarWidget = container.querySelector(".cts-sidebar-widget");
     const cornerCard = container.querySelector(".cts-corner-card");
@@ -190,9 +216,17 @@
     let editor = null;
     try {
       workbench = document.querySelector(".monaco-workbench");
-      glassShell = document.querySelector(".logged-out-glass-screen, .workspaces-container, .workspace-container");
-      sidebar = document.querySelector(".monaco-workbench .part.sidebar") || document.querySelector(".part.sidebar");
-      editor = document.querySelector(".monaco-workbench .part.editor") || document.querySelector(".part.editor") || glassShell;
+      glassShell = document.querySelector(".logged-out-glass-screen, .workspaces-container, .workspace-container, .agent-panel")
+        || document.querySelector(".glass-sidebar-docked")?.parentElement
+        || [...document.body.children].find((node) => node instanceof HTMLElement && node.id !== STYLE_ID && node.id !== DECORATIONS_ID && node.id !== BACKDROP_ID && node.getBoundingClientRect().height > 200)
+        || null;
+      sidebar = document.querySelector(".glass-sidebar-docked")
+        || document.querySelector(".monaco-workbench .part.sidebar")
+        || document.querySelector(".part.sidebar");
+      editor = document.querySelector(".agent-panel")
+        || document.querySelector(".monaco-workbench .part.editor")
+        || document.querySelector(".part.editor")
+        || glassShell;
       document.querySelectorAll(".cursor-theme-art-shell").forEach((node) => node.classList.remove("cursor-theme-art-shell"));
       if (editor instanceof Element) {
         editor.classList.add("cursor-theme-art-shell");
@@ -205,19 +239,18 @@
     }
 
     const dialogOpen = Boolean(document.querySelector('[role="dialog"],[aria-modal="true"],.monaco-dialog-box'));
-    const compact = innerWidth < 1180 || innerHeight < 720;
-    const ready = Boolean(workbench || glassShell || document.body);
-    const hasClassicChrome = Boolean(sidebar || document.querySelector(".part.editor"));
-    container.hidden = dialogOpen || compact || !ready || !hasClassicChrome;
+    const compact = innerWidth < 900 || innerHeight < 600;
+    const ready = Boolean(document.body);
+    container.hidden = dialogOpen || compact || !ready;
     if (container.hidden) {
-      const reason = dialogOpen ? "dialog-open" : compact ? "compact-window" : hasClassicChrome ? "not-ready" : "agents-or-glass-shell";
+      const reason = dialogOpen ? "dialog-open" : compact ? "compact-window" : "not-ready";
       hideCard(sidebarWidget, reason);
       hideCard(cornerCard, reason);
       return;
     }
     const controls = interactiveRects();
     placeSidebarWidget(sidebarWidget, sidebar, controls);
-    placeCornerCard(cornerCard, editor || workbench, controls);
+    placeCornerCard(cornerCard, editor || workbench || glassShell || document.body, controls);
   };
 
   const cleanup = () => {
@@ -236,6 +269,7 @@
     document.querySelectorAll(".cursor-theme-art-shell").forEach((node) => node.classList.remove("cursor-theme-art-shell"));
     document.getElementById(STYLE_ID)?.remove();
     document.getElementById(DECORATIONS_ID)?.remove();
+    document.getElementById(BACKDROP_ID)?.remove();
     if (state?.artUrl && state.artUrl !== "none") URL.revokeObjectURL(state.artUrl);
     delete window[STATE_KEY];
     return true;

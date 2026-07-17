@@ -196,9 +196,9 @@ export function generateCss(briefInput) {
   --cts-radius: ${shape.radius}px;
   --vscode-foreground: ${palette.ink} !important;
   --vscode-descriptionForeground: ${c.muted} !important;
-  --vscode-editor-background: ${c.panel} !important;
+  --vscode-editor-background: ${alpha(c.panel, dark ? 0.72 : 0.82)} !important;
   --vscode-editor-foreground: ${palette.ink} !important;
-  --vscode-sideBar-background: ${c.under} !important;
+  --vscode-sideBar-background: ${alpha(c.under, dark ? 0.78 : 0.88)} !important;
   --vscode-sideBar-foreground: ${palette.ink} !important;
   --vscode-sideBar-border: ${alpha(c.border, 0.72)} !important;
   --vscode-activityBar-background: ${mix(c.under, "#000000", dark ? 0.18 : 0)} !important;
@@ -207,7 +207,7 @@ export function generateCss(briefInput) {
   --vscode-titleBar-activeBackground: ${c.under} !important;
   --vscode-titleBar-activeForeground: ${palette.ink} !important;
   --vscode-titleBar-inactiveBackground: ${c.under} !important;
-  --vscode-panel-background: ${c.panel} !important;
+  --vscode-panel-background: ${alpha(c.panel, dark ? 0.78 : 0.88)} !important;
   --vscode-panel-border: ${alpha(c.border, 0.72)} !important;
   --vscode-statusBar-background: ${c.under} !important;
   --vscode-statusBar-foreground: ${c.muted} !important;
@@ -224,26 +224,51 @@ export function generateCss(briefInput) {
   --vscode-list-hoverBackground: ${alpha(palette.accent, dark ? 0.13 : 0.09)} !important;
   --vscode-list-activeSelectionBackground: ${alpha(palette.accent, dark ? 0.20 : 0.14)} !important;
   --vscode-list-activeSelectionForeground: ${palette.ink} !important;
-  --composer-pane-background: ${c.panel} !important;
+  --composer-pane-background: ${alpha(c.panel, dark ? 0.72 : 0.86)} !important;
   --cursor-text-link: ${palette.accent} !important;
 }
 
-html.cursor-theme-studio-skin body,
-html.cursor-theme-studio-skin .monaco-workbench,
-html.cursor-theme-studio-skin .logged-out-glass-screen,
-html.cursor-theme-studio-skin .workspaces-container,
-html.cursor-theme-studio-skin .workspace-container {
-  color: var(--cts-ink) !important;
-  background: ${baseGradient} !important;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei UI", system-ui, sans-serif !important;
-}
-
-html.cursor-theme-studio-skin .logged-out-glass-screen.cursor-theme-art-shell,
-html.cursor-theme-studio-skin .workspaces-container.cursor-theme-art-shell {
-  background-image: ${editorVeil}, var(--cursor-theme-art), ${baseGradient} !important;
+#cursor-theme-studio-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  background-image: ${editorVeil}, var(--cursor-theme-art, none), ${baseGradient} !important;
   background-repeat: no-repeat !important;
   background-size: cover, cover, cover !important;
   background-position: center, ${artPosition || "center right"}, center !important;
+}
+
+html.cursor-theme-studio-skin body,
+html.cursor-theme-studio-skin .monaco-workbench {
+  color: var(--cts-ink) !important;
+  background: transparent !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei UI", system-ui, sans-serif !important;
+}
+
+html.cursor-theme-studio-skin body > div:first-of-type,
+html.cursor-theme-studio-skin .logged-out-glass-screen,
+html.cursor-theme-studio-skin .workspaces-container,
+html.cursor-theme-studio-skin .workspace-container,
+html.cursor-theme-studio-skin .agent-panel,
+html.cursor-theme-studio-skin .glass-agent-drop-target,
+html.cursor-theme-studio-skin .glass-sidebar-docked {
+  background-color: ${alpha(c.under, dark ? 0.18 : 0.28)} !important;
+  background-image: none !important;
+  border-color: ${alpha(c.border, 0.55)} !important;
+  color: var(--cts-ink) !important;
+}
+
+html.cursor-theme-studio-skin .agent-panel {
+  background-color: ${alpha(c.panel, dark ? 0.16 : 0.28)} !important;
+  box-shadow: inset 0 0 0 1px ${alpha(palette.accent, dark ? 0.22 : 0.14)} !important;
+  backdrop-filter: blur(10px) saturate(1.05) !important;
+}
+
+html.cursor-theme-studio-skin .glass-sidebar-docked {
+  background: linear-gradient(180deg, ${alpha(c.under, dark ? 0.42 : 0.55)}, ${alpha(c.panel, dark ? 0.28 : 0.42)}) !important;
+  box-shadow: inset -1px 0 ${alpha(palette.accent, dark ? 0.28 : 0.18)} !important;
+  backdrop-filter: blur(14px) saturate(1.08) !important;
 }
 
 html.cursor-theme-studio-skin .monaco-workbench .part.activitybar {
@@ -262,7 +287,7 @@ html.cursor-theme-studio-skin .monaco-workbench .part.sidebar {
 
 html.cursor-theme-studio-skin .monaco-workbench .part.editor {
   color: var(--cts-ink) !important;
-  background: ${baseGradient} !important;
+  background: ${alpha(c.panel, dark ? 0.55 : 0.7)} !important;
   border-color: ${alpha(c.border, 0.66)} !important;
   box-shadow: ${shadow} !important;
 }
@@ -277,28 +302,26 @@ html.cursor-theme-studio-skin .monaco-workbench .part.editor > .content.cursor-t
 
 html.cursor-theme-studio-skin .monaco-workbench .part.auxiliarybar {
   color: var(--cts-ink) !important;
-  background: linear-gradient(180deg, ${alpha(c.panel, 0.96)}, ${alpha(c.under, 0.94)}) !important;
+  background: linear-gradient(180deg, ${alpha(c.panel, 0.86)}, ${alpha(c.under, 0.82)}) !important;
   border-color: ${alpha(c.border, 0.72)} !important;
 }
 
 html.cursor-theme-studio-skin .monaco-workbench .part.panel {
   color: var(--cts-ink) !important;
-  background: ${alpha(c.panel, 0.96)} !important;
+  background: ${alpha(c.panel, 0.88)} !important;
   border-color: ${alpha(c.border, 0.72)} !important;
 }
 
 html.cursor-theme-studio-skin .monaco-workbench .part.titlebar {
   color: var(--cts-ink) !important;
-  background: ${alpha(c.under, 0.98)} !important;
+  background: ${alpha(c.under, 0.92)} !important;
   border-color: ${alpha(c.border, 0.6)} !important;
 }
 
-html.cursor-theme-studio-skin :is(.composer-bar, .composer-bar.editor, [class*="composer"]) {
+html.cursor-theme-studio-skin :is(.composer-bar, .composer-bar.editor, [class*="composer"], [class*="agent-input"], textarea, [contenteditable="true"]) {
   color: var(--cts-ink) !important;
-  background: ${alpha(c.elevated, dark ? 0.88 : 0.90)} !important;
   border-color: ${alpha(palette.accent, dark ? 0.42 : 0.34)} !important;
   border-radius: calc(var(--cts-radius) + 2px) !important;
-  box-shadow: 0 12px 38px ${alpha("#000000", dark ? 0.32 : 0.12)}, inset 0 1px ${alpha("#FFFFFF", dark ? 0.08 : 0.78)} !important;
 }
 
 html.cursor-theme-studio-skin :is([role="dialog"], [aria-modal="true"], [role="menu"], .monaco-dialog-box) {
